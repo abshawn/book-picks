@@ -1,0 +1,28 @@
+<view class="page">
+    <view class="hero">
+        <text class="eyebrow">GATE T0</text>
+        <text class="hello">{{hello}}</text>
+        <text class="product">{{productName}}</text>
+    </view>
+
+    <view class="card">
+        <text class="headline">{{headline}}</text>
+        <text class="caption">{{caption}}</text>
+        <view class="row">
+            <text class="key">AppID</text>
+            <text class="value">{{appId}}</text>
+        </view>
+        <view class="row">
+            <text class="key">云环境</text>
+            <text class="value">{{envLabel}}</text>
+        </view>
+    </view>
+
+    <view class="card">
+        <text class="section">交接检查清单</text>
+        <view class="check-item" wx:for="{{checklist}}" wx:key="id">
+            <text class="mark">{{item.ok ? '✓' : '○'}}</text>
+            <text class="check-text">{{item.text}}</text>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,94 @@
+.page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 64rpx 32rpx;
+  background: #f5f7fa;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32rpx;
+}
+
+.eyebrow {
+  color: #1769e0;
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 4rpx;
+}
+
+.hello {
+  margin-top: 16rpx;
+  color: #1f2329;
+  font-size: 88rpx;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.product {
+  margin-top: 12rpx;
+  color: #646a73;
+  font-size: 32rpx;
+}
+
+.card {
+  box-sizing: border-box;
+  margin-top: 24rpx;
+  padding: 32rpx;
+  border: 2rpx solid #e5e8eb;
+  border-radius: 20rpx;
+  background: #ffffff;
+}
+
+.headline,
+.section {
+  color: #1f2329;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.caption {
+  display: block;
+  margin-top: 12rpx;
+  color: #646a73;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.key {
+  width: 128rpx;
+  color: #8a9099;
+  font-size: 24rpx;
+}
+
+.value {
+  flex: 1;
+  color: #1f2329;
+  font-size: 24rpx;
+  word-break: break-all;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+
+.mark {
+  width: 40rpx;
+  color: #1769e0;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.check-text {
+  color: #1f2329;
+  font-size: 26rpx;
+}

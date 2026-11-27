@@ -1,0 +1,13 @@
+{
+  "name": "ai-book-recommender",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Gate T0 - 微信小程序开发环境打通与交接验证工程",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "^3.12.0",
+    "typescript": "^5.7.0"
+  }
+}
