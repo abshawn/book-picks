@@ -80,7 +80,7 @@ README.md
 
 ## 5. GitHub 交接
 
-仓库：`（待创建，地址写入此处）`
+仓库：`https://github.com/abshawn/book-picks`（Public，主分支 `main`，2026-11-27 已推送两个提交 `b99a619`、`6ef9f67`）
 
 接手方独立验证步骤：
 
