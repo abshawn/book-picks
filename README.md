@@ -3,6 +3,7 @@
 > 这是 **Gate T0** 的最小工程，不是业务代码。
 > 目标：打通微信生态开发环境，交付一个可被 Codex 独立接管的 Hello 工程。
 > 业务开发（荐书流程、荣誉体系、运营活动、数据模型、云函数）全部留给接手方。
+> **接手方请先读 [`HANDOFF.md`](./HANDOFF.md)：含 6 步独立验收清单、回执格式、编译链路注意事项与真机证据。**
 
 ## 1. 项目信息
 
@@ -20,6 +21,9 @@
 ## 2. 目录结构
 
 ```text
+HANDOFF.md                Codex 交接说明（验收清单、回执格式）
+README.md                 本文件
+docs/                     真机预览证据图
 project.config.json       项目配置（AppID、云函数根目录；未启用 TS 编译插件）
 app.ts / app.js           全局入口（.ts 源码 + build 产出的 .js）
 app.wxss / app.json       全局样式、页面注册与窗口配置
@@ -28,7 +32,6 @@ typings/global.d.ts       本地类型声明
 tsconfig.json             TypeScript 配置（类型检查 + build 产出）
 cloudfunctions/hello/     最小云函数（连通验证）
 .gitignore
-README.md
 ```
 
 ## 3. 本地运行
@@ -63,8 +66,8 @@ README.md
 ### 部署与验证步骤
 
 1. 在微信开发者工具文件树中右键 `cloudfunctions` → 选择环境 `book-pick-2026`。
-2. 右键 `cloudfunctions/hello` → 上传并部署（云端安装依赖）。
-3. 在云开发控制台 → 云函数 → `hello` → 测试，传入 `{}`，应返回：
+2. 右键 `cloudfunctions/hello` → 上传并部署（云端安装依赖；IDE 内需人工点确认）。
+3. 点首页「调用 hello 云函数」按钮，或在云开发控制台 → 云函数 → `hello` → 测试，传入 `{}`，应返回：
 
    ```json
    { "ok": true, "message": "Hello from cloud function", "env": "book-pick-2026-d1go0q67ue516cbcb", "time": "..." }
@@ -72,7 +75,7 @@ README.md
 
 4. 云函数日志中应出现 `[hello] called with event:`。
 
-> Gate T0 边界：只做这一次真实调用验证。**不创建数据库集合，不写业务逻辑。**
+> 该链路已在模拟器与**真机**各验证一次，真机截图见 `docs/真机预览-GateT0-2026-11-27.jpg`。Gate T0 边界：只做连通验证。**不创建数据库集合，不写业务逻辑。**
 
 ### 查找路径（供接手方复核）
 
@@ -86,20 +89,21 @@ README.md
 接手方独立验证步骤：
 
 1. 从 GitHub 克隆仓库。
-2. 阅读本 README，按第 3、4 节配置环境。
+2. 阅读本 README 与 `HANDOFF.md`，按第 3、4 节配置环境。
 3. 用微信开发者工具独立编译并运行 Hello 首页。
 4. 修改 `pages/index/index.ts` 中 `headline` 的一处文字，**运行 `npm run build`**，再编译，确认修改生效（只改 `.ts` 不 build 不会生效）。
 5. 点首页「调用 hello 云函数」按钮，确认返回 `ok: true`（需 `cloudfunctions/hello` 已部署到当前环境）。
-6. 独立部署 `cloudfunctions/hello` 并确认返回结果。
+6. 独立部署 `cloudfunctions/hello` 并确认返回结果，随后建立开发规范开始 MVP。
 
-只有以上 6 步全部通过，才算具备可持续开发条件。
+只有以上步骤全部通过，才算具备可持续开发条件。逐步判定标准与验收回执格式见 `HANDOFF.md` 第 4、7 节。
 
 ## 6. 安全约束
 
 - 云开发密钥、管理员口令 **不得** 写入仓库。
 - AppID 属于公开项目配置，可入库；环境 ID 与云函数配置属于交接信息，记录在本文档中。
 - `project.private.config.json` 与 `node_modules/` 已加入 `.gitignore`。
-- 真机预览需项目负责人用手机微信扫码，接手方无法代劳。
+- 真机预览与发布需项目负责人用手机微信扫码；Gate T0 的真机预览已由负责人完成并留证，接手方无需重复。
+- 业务需求与设计稿（PRD / 交互稿 / 视觉稿 / 部署方案）**不在本仓库**，需项目负责人另行提供，清单见 `HANDOFF.md` 第 6 节。
 
 ## 7. 明确不做的事
 
