@@ -12,18 +12,20 @@
 | AppID | `wxbbf097fce15927bc`（已写入 `project.config.json`，可公开） |
 | 主体 | 个人主体 |
 | 云开发环境 ID | `book-pick-2026-d1go0q67ue516cbcb`（环境名 `book-pick-2026`，个人版，生效中，到期 2027-05-27 23:59:59，地域上海） |
-| 技术栈 | 微信原生小程序 + TypeScript 编译插件 |
+| 技术栈 | 微信原生小程序 + TypeScript（`npm run build` 产出 `.js`） |
 | 云函数 | `cloudfunctions/hello`（仅做连通验证） |
+
+> **重要（编译链路）**：微信开发者工具的 TypeScript 编译插件在本工程上不可靠（首次打开曾生成空的 `app.js` 缺失 / `index.js` 空模板），已关闭 `useCompilerPlugins`。运行文件 `.js` 由本地 `npm run build`（`tsc`）产出并提交入库。接手方修改任何 `.ts` 后，**必须运行 `npm run build`** 再编译，否则改动的 `.ts` 不会生效。
 
 ## 2. 目录结构
 
 ```text
-project.config.json       项目配置（AppID、TS 编译插件、云函数根目录）
-app.ts / app.wxss         全局入口
-app.json                  页面注册与窗口配置
-pages/index/              Hello 首页（.ts / .wxml / .wxss / .json）
+project.config.json       项目配置（AppID、云函数根目录；未启用 TS 编译插件）
+app.ts / app.js           全局入口（.ts 源码 + build 产出的 .js）
+app.wxss / app.json       全局样式、页面注册与窗口配置
+pages/index/              Hello 首页（.ts/.js 源码与产物 + .wxml/.wxss/.json）
 typings/global.d.ts       本地类型声明
-tsconfig.json             TypeScript 类型检查配置
+tsconfig.json             TypeScript 配置（类型检查 + build 产出）
 cloudfunctions/hello/     最小云函数（连通验证）
 .gitignore
 README.md
@@ -31,17 +33,16 @@ README.md
 
 ## 3. 本地运行
 
-1. 打开 **微信开发者工具** → 导入项目 → 选择本目录。
-2. AppID 已配置，无需修改；如工具提示使用测试号，确认 `project.config.json` 的 `appid` 字段为上面的值。
-3. 点击「编译」，模拟器应显示 **Hello / AI 荐书** 首页与交接检查清单。
-4. 类型检查（可选，需 Node.js）：
+1. 装依赖（需 Node.js）：`npm install`。
+2. 构建运行文件：`npm run build`（产出 `app.js` 与 `pages/index/index.js`；这两个 `.js` 已提交入库，直接打开也可运行）。
+3. 打开 **微信开发者工具** → 导入项目 → 选择本目录。
+4. AppID 已配置，无需修改；如工具提示使用测试号，确认 `project.config.json` 的 `appid` 字段为上面的值。
+5. 点击「编译」，模拟器应显示 **Hello / AI 荐书** 首页、交接检查清单与「调用 hello 云函数」按钮。
 
-   ```bash
-   npm install
-   npm run typecheck
-   ```
+脚本说明：
 
-> TypeScript 由微信开发者工具的 `useCompilerPlugins: ["typescript"]` 自动编译，`npm run typecheck` 只做静态类型检查，不产出运行文件。
+- `npm run typecheck`：只做静态类型检查，不产出文件。
+- `npm run build`：`tsc` 产出 `.js` 运行文件。**每次修改 `.ts` 后都要重新运行。**
 
 ## 4. 云开发环境配置
 
@@ -80,16 +81,16 @@ README.md
 
 ## 5. GitHub 交接
 
-仓库：`https://github.com/abshawn/book-picks`（Public，主分支 `main`，2026-11-27 已推送两个提交 `b99a619`、`6ef9f67`）
+仓库：`https://github.com/abshawn/book-picks`（Public，主分支 `main`）
 
 接手方独立验证步骤：
 
 1. 从 GitHub 克隆仓库。
 2. 阅读本 README，按第 3、4 节配置环境。
 3. 用微信开发者工具独立编译并运行 Hello 首页。
-4. 修改 `pages/index/index.ts` 中 `headline` 的一处文字。
-5. 再次编译，确认修改生效。
-6. 确认 `cloudfunctions/hello` 可独立部署并返回结果。
+4. 修改 `pages/index/index.ts` 中 `headline` 的一处文字，**运行 `npm run build`**，再编译，确认修改生效（只改 `.ts` 不 build 不会生效）。
+5. 点首页「调用 hello 云函数」按钮，确认返回 `ok: true`（需 `cloudfunctions/hello` 已部署到当前环境）。
+6. 独立部署 `cloudfunctions/hello` 并确认返回结果。
 
 只有以上 6 步全部通过，才算具备可持续开发条件。
 

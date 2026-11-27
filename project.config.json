@@ -17,9 +17,6 @@
     "urlCheck": true
   },
   "compileType": "miniprogram",
-  "useCompilerPlugins": [
-    "typescript"
-  ],
   "appid": "wxbbf097fce15927bc",
   "projectname": "ai-book-recommender",
   "miniprogramRoot": "./",

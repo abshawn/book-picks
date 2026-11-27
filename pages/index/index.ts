@@ -1,3 +1,11 @@
+interface CloudResult {
+  ok: boolean;
+  message?: string;
+  env?: string;
+  time?: string;
+  error?: string;
+}
+
 interface IndexData {
   hello: string;
   productName: string;
@@ -6,10 +14,16 @@ interface IndexData {
   appId: string;
   envLabel: string;
   envReady: boolean;
+  cloudState: 'idle' | 'loading' | 'success' | 'error';
+  cloudResult: string;
   checklist: Array<{ id: string; text: string; ok: boolean }>;
 }
 
-Page<IndexData, {}>({
+interface IndexMethods {
+  onCloudCall(): void;
+}
+
+Page<IndexData, IndexMethods>({
   data: {
     hello: 'Hello',
     productName: 'AI 荐书',
@@ -18,6 +32,8 @@ Page<IndexData, {}>({
     appId: 'wxbbf097fce15927bc',
     envReady: true,
     envLabel: 'book-pick-2026-d1go0q67ue516cbcb（个人版 · 生效中）',
+    cloudState: 'idle',
+    cloudResult: '',
     checklist: [
       { id: 'ts', text: 'TypeScript 编译', ok: true },
       { id: 'appid', text: 'AppID 已写入项目配置', ok: true },
@@ -25,8 +41,26 @@ Page<IndexData, {}>({
     ],
   },
 
-  onLoad() {
-    // Gate T0 只做最小验证，不创建业务集合、不写业务逻辑。
-    // 云环境 ID 属于本地私有配置，由 README 说明如何填入。
+  onCloudCall() {
+    if (this.data.cloudState === 'loading') return;
+    this.setData({ cloudState: 'loading', cloudResult: '调用中…' });
+    wx.cloud.callFunction({
+      name: 'hello',
+      data: { from: 'Gate T0' },
+      success: (res: any) => {
+        const r = res.result as CloudResult;
+        this.setData({
+          cloudState: r && r.ok ? 'success' : 'error',
+          cloudResult: JSON.stringify(r, null, 2),
+          'checklist[2].ok': !!(r && r.ok),
+        });
+      },
+      fail: (err: any) => {
+        this.setData({
+          cloudState: 'error',
+          cloudResult: err && err.errMsg ? err.errMsg : String(err),
+        });
+      },
+    });
   },
 });

@@ -92,3 +92,34 @@
   color: #1f2329;
   font-size: 26rpx;
 }
+
+.call-btn {
+  margin-top: 20rpx;
+  color: #ffffff;
+  background: #1769e0;
+  font-size: 26rpx;
+  border-radius: 12rpx;
+}
+
+.call-result {
+  display: block;
+  margin-top: 20rpx;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  background: #f5f7fa;
+  color: #1f2329;
+  font-size: 22rpx;
+  line-height: 1.6;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.call-success {
+  background: #e8f7ee;
+  color: #1a7f37;
+}
+
+.call-error {
+  background: #fdecec;
+  color: #c0392b;
+}

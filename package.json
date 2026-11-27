@@ -4,7 +4,8 @@
   "private": true,
   "description": "Gate T0 - 微信小程序开发环境打通与交接验证工程",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit false --noEmitOnError false"
   },
   "devDependencies": {
     "miniprogram-api-typings": "^3.12.0",

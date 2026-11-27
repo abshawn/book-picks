@@ -25,4 +25,10 @@
             <text class="check-text">{{item.text}}</text>
         </view>
     </view>
+
+    <view class="card">
+        <text class="section">云函数真实调用验证</text>
+        <button class="call-btn" bindtap="onCloudCall" loading="{{cloudState === 'loading'}}">调用 hello 云函数</button>
+        <text class="call-result call-{{cloudState}}" wx:if="{{cloudResult}}">{{cloudResult}}</text>
+    </view>
 </view>
